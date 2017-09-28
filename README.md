@@ -241,3 +241,5 @@
 同时我觉得大家一起探讨交流也很重要，一个人做着做着就容易走偏，纯属个人看法。
 
 CSDN博客链接：[http://blog.csdn.net/shine19930820/article/details/53995369](http://blog.csdn.net/shine19930820/article/details/53995369)
+
+自己的代码太乱，改自第一名[GitHub地址](https://github.com/wepe/O2O-Coupon-Usage-Forecast)
