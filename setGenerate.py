@@ -6,7 +6,7 @@ from datetime import date
 ##################  generate training and testing set ################
 def get_label(s):
     s = s.split(':')
-    if s[0]=='null':
+    if s[0]=='nan':
         return 0
     elif (date(int(s[0][0:4]),int(s[0][4:6]),int(s[0][6:8]))-date(int(s[1][0:4]),int(s[1][4:6]),int(s[1][6:8]))).days<=15:
         return 1
@@ -34,6 +34,7 @@ weekday_dummies.columns = ['weekday'+str(i+1) for i in range(weekday_dummies.sha
 dataset3 = pd.concat([dataset3,weekday_dummies],axis=1)
 dataset3.drop(['merchant_id','day_of_week','coupon_count'],axis=1,inplace=True)
 dataset3 = dataset3.replace('null',np.nan)
+print(dataset3.shape)
 dataset3.to_csv('data/dataset3.csv',index=None)
 
 
@@ -59,6 +60,7 @@ dataset2['label'] = dataset2.date.astype('str') + ':' +  dataset2.date_received.
 dataset2.label = dataset2.label.apply(get_label)
 dataset2.drop(['merchant_id','day_of_week','date','date_received','coupon_id','coupon_count'],axis=1,inplace=True)
 dataset2 = dataset2.replace('null',np.nan)
+print(dataset2.shape)
 dataset2.to_csv('data/dataset2.csv',index=None)
 
 
@@ -84,4 +86,31 @@ dataset1['label'] = dataset1.date.astype('str') + ':' +  dataset1.date_received.
 dataset1.label = dataset1.label.apply(get_label)
 dataset1.drop(['merchant_id','day_of_week','date','date_received','coupon_id','coupon_count'],axis=1,inplace=True)
 dataset1 = dataset1.replace('null',np.nan)
+print(dataset1.shape)
 dataset1.to_csv('data/dataset1.csv',index=None)
+
+
+coupon0 = pd.read_csv('data/coupon0_feature.csv')
+merchant0 = pd.read_csv('data/merchant0_feature.csv')
+user0 = pd.read_csv('data/user0_feature.csv')
+user_merchant0 = pd.read_csv('data/user_merchant0.csv')
+other_feature0 = pd.read_csv('data/other_feature0.csv')
+dataset0 = pd.merge(coupon0,merchant0,on='merchant_id',how='left')
+dataset0 = pd.merge(dataset0,user0,on='user_id',how='left')
+dataset0 = pd.merge(dataset0,user_merchant0,on=['user_id','merchant_id'],how='left')
+dataset0 = pd.merge(dataset0,other_feature0,on=['user_id','coupon_id','date_received'],how='left')
+dataset0.drop_duplicates(inplace=True)
+
+dataset0.user_merchant_buy_total = dataset0.user_merchant_buy_total.replace(np.nan,0)
+dataset0.user_merchant_any = dataset0.user_merchant_any.replace(np.nan,0)
+dataset0.user_merchant_received = dataset0.user_merchant_received.replace(np.nan,0)
+dataset0['is_weekend'] = dataset0.day_of_week.apply(lambda x:1 if x in (6,7) else 0)
+weekday_dummies = pd.get_dummies(dataset0.day_of_week)
+weekday_dummies.columns = ['weekday'+str(i+1) for i in range(weekday_dummies.shape[1])]
+dataset0 = pd.concat([dataset0,weekday_dummies],axis=1)
+dataset0['label'] = dataset0.date.astype('str') + ':' +  dataset0.date_received.astype('str')
+dataset0.label = dataset0.label.apply(get_label)
+dataset0.drop(['merchant_id','day_of_week','date','date_received','coupon_id','coupon_count'],axis=1,inplace=True)
+dataset0 = dataset0.replace('null',np.nan)
+print(dataset0.shape)
+dataset0.to_csv('data/dataset0.csv',index=None)
