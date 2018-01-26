@@ -15,13 +15,11 @@ dataset1.drop_duplicates(inplace=True)
 dataset2.drop_duplicates(inplace=True)
 dataset3.drop_duplicates(inplace=True)
 
-dataset12 = pd.concat([dataset1,dataset2],axis=0)
-dataset012 = pd.concat([dataset12,dataset0],axis=0)
+dataset01 = pd.concat([dataset0,dataset1],axis=0)
+dataset012 = pd.concat([dataset01,dataset2],axis=0)
 
-dataset0_y = dataset0.label
-dataset0_x = dataset0.drop(['user_id','label','day_gap_before','day_gap_after'],axis=1)  # 'day_gap_before','day_gap_after' cause overfitting, 0.77
-dataset1_y = dataset1.label
-dataset1_x = dataset1.drop(['user_id','label','day_gap_before','day_gap_after'],axis=1)  # 'day_gap_before','day_gap_after' cause overfitting, 0.77
+dataset01_y = dataset01.label
+dataset01_x = dataset01.drop(['user_id','label','day_gap_before','day_gap_after'],axis=1)  # 'day_gap_before','day_gap_after' cause overfitting, 0.77
 dataset2_y = dataset2.label
 dataset2_x = dataset2.drop(['user_id','label','day_gap_before','day_gap_after'],axis=1)
 dataset012_y = dataset012.label
@@ -29,10 +27,9 @@ dataset012_x = dataset012.drop(['user_id','label','day_gap_before','day_gap_afte
 dataset3_preds = dataset3[['user_id','coupon_id','date_received']]
 dataset3_x = dataset3.drop(['user_id','coupon_id','date_received','day_gap_before','day_gap_after'],axis=1)
 
-print(dataset1_x.shape,dataset2_x.shape,dataset3_x.shape)
+print(dataset01_x.shape,dataset2_x.shape,dataset3_x.shape)
 
-dataset0 = xgb.DMatrix(dataset0_x,label=dataset0_y)
-dataset1 = xgb.DMatrix(dataset1_x,label=dataset1_y)
+dataset01 = xgb.DMatrix(dataset01_x,label=dataset01_y)
 dataset2 = xgb.DMatrix(dataset2_x,label=dataset2_y)
 dataset012 = xgb.DMatrix(dataset012_x,label=dataset012_y)
 dataset3 = xgb.DMatrix(dataset3_x)
@@ -44,8 +41,8 @@ params={'booster':'gbtree',
 	    'min_child_weight':1.1,
 	    'max_depth':5,
 	    'lambda':10,
-	    'subsample':0.7,
-	    'colsample_bytree':0.7,
+	    'subsample':0.6,
+	    'colsample_bytree':0.6,
 	    'colsample_bylevel':0.7,
 	    'eta': 0.01,
 	    'tree_method':'exact',
@@ -53,12 +50,19 @@ params={'booster':'gbtree',
 	    'nthread':12
 	    }
 
-#train on dataset01, evaluate on dataset2
-# watchlist = [(dataset1,'train'),(dataset2,'val')]
-# model = xgb_3500.train(params,dataset1,num_boost_round=3000,evals=watchlist,early_stopping_rounds=300)
-#
+
+# train on dataset01, evaluate on dataset2
+# from sklearn.metrics import roc_auc_score
+# watchlist = [(dataset01,'train')]
+# model = xgb.train(params,dataset01,num_boost_round=300,evals=watchlist)
+# preds = model.predict(dataset2)
+# preds = MinMaxScaler().fit_transform(preds.reshape(-1,1))
+# print(roc_auc_score(dataset2.get_label(),preds))
+
+
+#for submit
 watchlist = [(dataset012,'train')]
-model = xgb.train(params,dataset012,num_boost_round=3800,evals=watchlist)
+model = xgb.train(params,dataset012,num_boost_round=4100,evals=watchlist)
 
 #predict test set
 dataset3_preds['label'] = model.predict(dataset3)
