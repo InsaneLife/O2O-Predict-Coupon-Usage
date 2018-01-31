@@ -41,9 +41,9 @@ params={'booster':'gbtree',
 	    'min_child_weight':1.1,
 	    'max_depth':5,
 	    'lambda':10,
-	    'subsample':0.6,
-	    'colsample_bytree':0.6,
-	    'colsample_bylevel':0.7,
+	    'subsample':0.65,
+	    'colsample_bytree':0.65,
+	    'colsample_bylevel':0.65,
 	    'eta': 0.01,
 	    'tree_method':'exact',
 	    'seed':0,
@@ -62,7 +62,7 @@ params={'booster':'gbtree',
 
 #for submit
 watchlist = [(dataset012,'train')]
-model = xgb.train(params,dataset012,num_boost_round=4100,evals=watchlist)
+model = xgb.train(params,dataset012,num_boost_round=4000,evals=watchlist)
 
 #predict test set
 dataset3_preds['label'] = model.predict(dataset3)
