@@ -167,7 +167,7 @@ other_feature3 = pd.merge(other_feature3,t3,on=['user_id','coupon_id'])
 other_feature3 = pd.merge(other_feature3,t4,on=['user_id','date_received'])
 other_feature3 = pd.merge(other_feature3,t5,on=['user_id','coupon_id','date_received'])
 other_feature3 = pd.merge(other_feature3,t7,on=['user_id','coupon_id','date_received'])
-print(other_feature3.shape)
+print('other_feature3',other_feature3.shape)
 other_feature3.to_csv('data/other_feature3.csv',index=None)
 
 
@@ -261,7 +261,7 @@ other_feature2 = pd.merge(other_feature2,t3,on=['user_id','coupon_id'])
 other_feature2 = pd.merge(other_feature2,t4,on=['user_id','date_received'])
 other_feature2 = pd.merge(other_feature2,t5,on=['user_id','coupon_id','date_received'])
 other_feature2 = pd.merge(other_feature2,t7,on=['user_id','coupon_id','date_received'])
-print(other_feature2.shape)
+print('other_feature2',other_feature2.shape)
 other_feature2.to_csv('data/other_feature2.csv',index=None)
 
 
@@ -353,7 +353,7 @@ other_feature1 = pd.merge(other_feature1,t3,on=['user_id','coupon_id'])
 other_feature1 = pd.merge(other_feature1,t4,on=['user_id','date_received'])
 other_feature1 = pd.merge(other_feature1,t5,on=['user_id','coupon_id','date_received'])
 other_feature1 = pd.merge(other_feature1,t7,on=['user_id','coupon_id','date_received'])
-print(other_feature1.shape)
+print('other_feature1',other_feature1.shape)
 other_feature1.to_csv('data/other_feature1.csv',index=None)
 
 # for dataset0
@@ -453,7 +453,7 @@ other_feature0 = pd.merge(other_feature0, t3, on=['user_id', 'coupon_id'])
 other_feature0 = pd.merge(other_feature0, t4, on=['user_id', 'date_received'])
 other_feature0 = pd.merge(other_feature0, t5, on=['user_id', 'coupon_id', 'date_received'])
 other_feature0 = pd.merge(other_feature0, t7, on=['user_id', 'coupon_id', 'date_received'])
-print(other_feature0.shape)
+print('other_feature0',other_feature0.shape)
 other_feature0.to_csv('data/other_feature0.csv', index=None)
 
 ############# coupon related feature   #############
@@ -506,7 +506,7 @@ d = dataset3[['coupon_id']]
 d['coupon_count'] = 1
 d = d.groupby('coupon_id').agg('sum').reset_index()
 dataset3 = pd.merge(dataset3,d,on='coupon_id',how='left')
-print(dataset3.shape)
+print('coupon_ralated3',dataset3.shape)
 dataset3.to_csv('data/coupon3_feature.csv',index=None)
 #dataset2
 dataset2['day_of_week'] = dataset2.date_received.astype('str').apply(lambda x:date(int(x[0:4]),int(x[4:6]),int(x[6:8])).weekday()+1)
@@ -520,7 +520,7 @@ d = dataset2[['coupon_id']]
 d['coupon_count'] = 1
 d = d.groupby('coupon_id').agg('sum').reset_index()
 dataset2 = pd.merge(dataset2,d,on='coupon_id',how='left')
-print(dataset2.shape)
+print('coupon_ralated2',dataset2.shape)
 dataset2.to_csv('data/coupon2_feature.csv',index=None)
 #dataset1
 dataset1['day_of_week'] = dataset1.date_received.astype('str').apply(lambda x:date(int(x[0:4]),int(x[4:6]),int(x[6:8])).weekday()+1)
@@ -534,7 +534,7 @@ d = dataset1[['coupon_id']]
 d['coupon_count'] = 1
 d = d.groupby('coupon_id').agg('sum').reset_index()
 dataset1 = pd.merge(dataset1,d,on='coupon_id',how='left')
-print(dataset1.shape)
+print('coupon_ralated1',dataset1.shape)
 dataset1.to_csv('data/coupon1_feature.csv',index=None)
 #dataset0
 dataset0['day_of_week'] = dataset0.date_received.astype('str').apply(lambda x:date(int(x[0:4]),int(x[4:6]),int(x[6:8])).weekday()+1)
@@ -548,7 +548,7 @@ d = dataset0[['coupon_id']]
 d['coupon_count'] = 1
 d = d.groupby('coupon_id').agg('sum').reset_index()
 dataset0 = pd.merge(dataset0,d,on='coupon_id',how='left')
-print(dataset0.shape)
+print('coupon_ralated0',dataset0.shape)
 dataset0.to_csv('data/coupon0_feature.csv',index=None)
 
 
@@ -608,7 +608,7 @@ merchant3_feature.sales_use_coupon = merchant3_feature.sales_use_coupon.replace(
 merchant3_feature['merchant_coupon_transfer_rate'] = merchant3_feature.sales_use_coupon.astype('float') / merchant3_feature.total_coupon
 merchant3_feature['coupon_rate'] = merchant3_feature.sales_use_coupon.astype('float') / merchant3_feature.total_sales
 merchant3_feature.total_coupon = merchant3_feature.total_coupon.replace(np.nan,0) #fillna with 0
-print(merchant3_feature.shape)
+print('merchant3',merchant3_feature.shape)
 merchant3_feature.to_csv('data/merchant3_feature.csv',index=None)
 
 
@@ -657,7 +657,7 @@ merchant2_feature.sales_use_coupon = merchant2_feature.sales_use_coupon.replace(
 merchant2_feature['merchant_coupon_transfer_rate'] = merchant2_feature.sales_use_coupon.astype('float') / merchant2_feature.total_coupon
 merchant2_feature['coupon_rate'] = merchant2_feature.sales_use_coupon.astype('float') / merchant2_feature.total_sales
 merchant2_feature.total_coupon = merchant2_feature.total_coupon.replace(np.nan,0) #fillna with 0
-print(merchant2_feature.shape)
+print('merchant2',merchant2_feature.shape)
 merchant2_feature.to_csv('data/merchant2_feature.csv',index=None)
 
 #for dataset1
@@ -706,7 +706,7 @@ merchant1_feature.sales_use_coupon = merchant1_feature.sales_use_coupon.replace(
 merchant1_feature['merchant_coupon_transfer_rate'] = merchant1_feature.sales_use_coupon.astype('float') / merchant1_feature.total_coupon
 merchant1_feature['coupon_rate'] = merchant1_feature.sales_use_coupon.astype('float') / merchant1_feature.total_sales
 merchant1_feature.total_coupon = merchant1_feature.total_coupon.replace(np.nan,0) #fillna with 0
-print(merchant1_feature.shape)
+print('merchant1',merchant1_feature.shape)
 merchant1_feature.to_csv('data/merchant1_feature.csv',index=None)
 
 #for dataset0
@@ -755,7 +755,7 @@ merchant0_feature.sales_use_coupon = merchant0_feature.sales_use_coupon.replace(
 merchant0_feature['merchant_coupon_transfer_rate'] = merchant0_feature.sales_use_coupon.astype('float') / merchant0_feature.total_coupon
 merchant0_feature['coupon_rate'] = merchant0_feature.sales_use_coupon.astype('float') / merchant0_feature.total_sales
 merchant0_feature.total_coupon = merchant0_feature.total_coupon.replace(np.nan,0) #fillna with 0
-print(merchant0_feature.shape)
+print('merchant0',merchant0_feature.shape)
 merchant0_feature.to_csv('data/merchant0_feature.csv',index=None)
 
 
@@ -770,8 +770,6 @@ merchant0_feature.to_csv('data/merchant0_feature.csv',index=None)
       buy_use_coupon/coupon_received. 
       buy_use_coupon/buy_total
       user_date_datereceived_gap
-      
-
 """
 
 def get_user_date_datereceived_gap(s):
@@ -794,6 +792,7 @@ t2 = user3[pd.notnull(user3.date)&pd.notnull(user3.coupon_id)][['user_id','dista
 t2.replace(np.nan,-1,inplace=True)
 t2.distance = t2.distance.astype('int')
 t2.replace(-1,np.nan,inplace=True)
+
 t3 = t2.groupby('user_id').agg('min').reset_index()
 t3.rename(columns={'distance':'user_min_distance'},inplace=True)
 
@@ -848,7 +847,7 @@ user3_feature['buy_use_coupon_rate'] = user3_feature.buy_use_coupon.astype('floa
 user3_feature['user_coupon_transfer_rate'] = user3_feature.buy_use_coupon.astype('float') / user3_feature.coupon_received.astype('float')
 user3_feature.buy_total = user3_feature.buy_total.replace(np.nan,0)
 user3_feature.coupon_received = user3_feature.coupon_received.replace(np.nan,0)
-print(user3_feature.shape)
+print('user3',user3_feature.shape)
 user3_feature.to_csv('data/user3_feature.csv',index=None)
 
 
@@ -868,6 +867,7 @@ t2 = user2[pd.notnull(user2.date)&pd.notnull(user2.coupon_id)][['user_id','dista
 t2.replace(np.nan,-1,inplace=True)
 t2.distance = t2.distance.astype('int')
 t2.replace(-1,np.nan,inplace=True)
+
 t3 = t2.groupby('user_id').agg('min').reset_index()
 t3.rename(columns={'distance':'user_min_distance'},inplace=True)
 
@@ -921,7 +921,7 @@ user2_feature['buy_use_coupon_rate'] = user2_feature.buy_use_coupon.astype('floa
 user2_feature['user_coupon_transfer_rate'] = user2_feature.buy_use_coupon.astype('float') / user2_feature.coupon_received.astype('float')
 user2_feature.buy_total = user2_feature.buy_total.replace(np.nan,0)
 user2_feature.coupon_received = user2_feature.coupon_received.replace(np.nan,0)
-print(user2_feature.shape)
+print('user2',user2_feature.shape)
 user2_feature.to_csv('data/user2_feature.csv',index=None)
 
 
@@ -941,6 +941,7 @@ t2 = user1[pd.notnull(user1.date)&pd.notnull(user1.coupon_id)][['user_id','dista
 t2.replace(np.nan,-1,inplace=True)
 t2.distance = t2.distance.astype('int')
 t2.replace(-1,np.nan,inplace=True)
+
 t3 = t2.groupby('user_id').agg('min').reset_index()
 t3.rename(columns={'distance':'user_min_distance'},inplace=True)
 
@@ -994,10 +995,10 @@ user1_feature['buy_use_coupon_rate'] = user1_feature.buy_use_coupon.astype('floa
 user1_feature['user_coupon_transfer_rate'] = user1_feature.buy_use_coupon.astype('float') / user1_feature.coupon_received.astype('float')
 user1_feature.buy_total = user1_feature.buy_total.replace(np.nan,0)
 user1_feature.coupon_received = user1_feature.coupon_received.replace(np.nan,0)
-print(user1_feature.shape)
+print('user1',user1_feature.shape)
 user1_feature.to_csv('data/user1_feature.csv',index=None)
 
-#for dataset1
+#for dataset0
 user0 = feature0[['user_id','merchant_id','coupon_id','discount_rate','distance','date_received','date']]
 
 t = user0[['user_id']]
@@ -1013,6 +1014,7 @@ t2 = user0[pd.notnull(user0.date)&pd.notnull(user0.coupon_id)][['user_id','dista
 t2.replace(np.nan,-1,inplace=True)
 t2.distance = t2.distance.astype('int')
 t2.replace(-1,np.nan,inplace=True)
+
 t3 = t2.groupby('user_id').agg('min').reset_index()
 t3.rename(columns={'distance':'user_min_distance'},inplace=True)
 
@@ -1066,7 +1068,7 @@ user0_feature['buy_use_coupon_rate'] = user0_feature.buy_use_coupon.astype('floa
 user0_feature['user_coupon_transfer_rate'] = user0_feature.buy_use_coupon.astype('float') / user0_feature.coupon_received.astype('float')
 user0_feature.buy_total = user0_feature.buy_total.replace(np.nan,0)
 user0_feature.coupon_received = user0_feature.coupon_received.replace(np.nan,0)
-print(user0_feature.shape)
+print('user0',user0_feature.shape)
 user0_feature.to_csv('data/user0_feature.csv',index=None)
 
 
@@ -1120,7 +1122,7 @@ user_merchant3['user_merchant_coupon_transfer_rate'] = user_merchant3.user_merch
 user_merchant3['user_merchant_coupon_buy_rate'] = user_merchant3.user_merchant_buy_use_coupon.astype('float') / user_merchant3.user_merchant_buy_total.astype('float')
 user_merchant3['user_merchant_rate'] = user_merchant3.user_merchant_buy_total.astype('float') / user_merchant3.user_merchant_any.astype('float')
 user_merchant3['user_merchant_common_buy_rate'] = user_merchant3.user_merchant_buy_common.astype('float') / user_merchant3.user_merchant_buy_total.astype('float')
-print(user_merchant3.shape)
+print('user_merchant3',user_merchant3.shape)
 user_merchant3.to_csv('data/user_merchant3.csv',index=None)
 
 #for dataset2
@@ -1167,7 +1169,7 @@ user_merchant2['user_merchant_coupon_transfer_rate'] = user_merchant2.user_merch
 user_merchant2['user_merchant_coupon_buy_rate'] = user_merchant2.user_merchant_buy_use_coupon.astype('float') / user_merchant2.user_merchant_buy_total.astype('float')
 user_merchant2['user_merchant_rate'] = user_merchant2.user_merchant_buy_total.astype('float') / user_merchant2.user_merchant_any.astype('float')
 user_merchant2['user_merchant_common_buy_rate'] = user_merchant2.user_merchant_buy_common.astype('float') / user_merchant2.user_merchant_buy_total.astype('float')
-print(user_merchant2.shape)
+print('user_merchant2',user_merchant2.shape)
 user_merchant2.to_csv('data/user_merchant2.csv',index=None)
 
 #for dataset1
@@ -1214,7 +1216,7 @@ user_merchant1['user_merchant_coupon_transfer_rate'] = user_merchant1.user_merch
 user_merchant1['user_merchant_coupon_buy_rate'] = user_merchant1.user_merchant_buy_use_coupon.astype('float') / user_merchant1.user_merchant_buy_total.astype('float')
 user_merchant1['user_merchant_rate'] = user_merchant1.user_merchant_buy_total.astype('float') / user_merchant1.user_merchant_any.astype('float')
 user_merchant1['user_merchant_common_buy_rate'] = user_merchant1.user_merchant_buy_common.astype('float') / user_merchant1.user_merchant_buy_total.astype('float')
-print(user_merchant1.shape)
+print('user_merchant1',user_merchant1.shape)
 user_merchant1.to_csv('data/user_merchant1.csv',index=None)
 
 
@@ -1262,7 +1264,7 @@ user_merchant0['user_merchant_coupon_transfer_rate'] = user_merchant0.user_merch
 user_merchant0['user_merchant_coupon_buy_rate'] = user_merchant0.user_merchant_buy_use_coupon.astype('float') / user_merchant0.user_merchant_buy_total.astype('float')
 user_merchant0['user_merchant_rate'] = user_merchant0.user_merchant_buy_total.astype('float') / user_merchant0.user_merchant_any.astype('float')
 user_merchant0['user_merchant_common_buy_rate'] = user_merchant0.user_merchant_buy_common.astype('float') / user_merchant0.user_merchant_buy_total.astype('float')
-print(user_merchant0.shape)
+print('user_merchant0',user_merchant0.shape)
 user_merchant0.to_csv('data/user_merchant0.csv',index=None)
 
 

@@ -14,6 +14,7 @@ dataset0.drop_duplicates(inplace=True)
 dataset1.drop_duplicates(inplace=True)
 dataset2.drop_duplicates(inplace=True)
 dataset3.drop_duplicates(inplace=True)
+print(dataset3.info())
 
 dataset01 = pd.concat([dataset0,dataset1],axis=0)
 dataset012 = pd.concat([dataset01,dataset2],axis=0)
@@ -34,51 +35,59 @@ dataset2 = xgb.DMatrix(dataset2_x,label=dataset2_y)
 dataset012 = xgb.DMatrix(dataset012_x,label=dataset012_y)
 dataset3 = xgb.DMatrix(dataset3_x)
 
-params={'booster':'gbtree',
-	    'objective': 'rank:pairwise',
-	    'eval_metric':'auc',
-	    'gamma':0.1,
-	    'min_child_weight':1.1,
-	    'max_depth':5,
-	    'lambda':10,
-	    'subsample':0.65,
-	    'colsample_bytree':0.65,
-	    'colsample_bylevel':0.65,
-	    'eta': 0.01,
-	    'tree_method':'exact',
-	    'seed':0,
-	    'nthread':12
-	    }
+#for params search
+from sklearn.model_selection import GridSearchCV
+"""
+	1.学习率、决策树数量（'gamma':0.1,）
+	2.单决策树相关参数(max_depth, min_child_weight, gamma, subsample, colsample_bytree,'colsample_bylevel':0.65,)
+	3.正则化调优(lambda, alpha)
+"""
+param_test = {}
 
+#
+# params={'booster':'gbtree',
+# 	    'gamma':0.1,
+# 	    'min_child_weight':1.1,
+# 	    'max_depth':5,
+# 	    'lambda':10,
+# 	    'subsample':0.65,
+# 	    'colsample_bytree':0.65,
+# 	    'colsample_bylevel':0.65,
+# 	    'eta': 0.01,
+# 	    'tree_method':'exact',
+# 	    'seed':0,
+# 	    'nthread':12
+# 	    }
 
-# train on dataset01, evaluate on dataset2
+# # train on dataset01, evaluate on dataset2
 # from sklearn.metrics import roc_auc_score
 # watchlist = [(dataset01,'train')]
-# model = xgb.train(params,dataset01,num_boost_round=300,evals=watchlist)
+# model = xgb.train(params,dataset01,num_boost_round=2000,evals=watchlist)
 # preds = model.predict(dataset2)
 # preds = MinMaxScaler().fit_transform(preds.reshape(-1,1))
 # print(roc_auc_score(dataset2.get_label(),preds))
 
 
-#for submit
-watchlist = [(dataset012,'train')]
-model = xgb.train(params,dataset012,num_boost_round=4000,evals=watchlist)
-
-#predict test set
-dataset3_preds['label'] = model.predict(dataset3)
-dataset3_preds.label = MinMaxScaler().fit_transform(dataset3_preds.label.reshape(-1,1))
-dataset3_preds.sort_values(by=['coupon_id','label'],inplace=True)
-dataset3_preds.to_csv("xgb_preds.csv",index=None,header=None)
-# print(dataset3_preds.info())
+# # for submit
+# watchlist = [(dataset012,'train')]
+# model = xgb.train(params,dataset012,num_boost_round=2000,evals=watchlist)
 #
-#save feature score
-feature_score = model.get_fscore()
-feature_score = sorted(feature_score.items(), key=lambda x:x[1],reverse=True)
-fs = []
-for (key,value) in feature_score:
-    fs.append("{0},{1}\n".format(key,value))
-
-with open('xgb_feature_score.csv','w') as f:
-    f.writelines("feature,score\n")
-    f.writelines(fs)
-
+# #predict test set
+# dataset3_preds['label'] = model.predict(dataset3)
+# dataset3_preds.label = MinMaxScaler().fit_transform(dataset3_preds.label.reshape(-1,1))
+# dataset3_preds.sort_values(by=['coupon_id','label'],inplace=True)
+# dataset3_preds.to_csv("xgb_preds.csv",index=None,header=None)
+# # print(dataset3_preds.info())
+#
+# #
+# #save feature score
+# feature_score = model.get_fscore()
+# feature_score = sorted(feature_score.items(), key=lambda x:x[1],reverse=True)
+# fs = []
+# for (key,value) in feature_score:
+#     fs.append("{0},{1}\n".format(key,value))
+#
+# with open('xgb_feature_score.csv','w') as f:
+#     f.writelines("feature,score\n")
+#     f.writelines(fs)
+#

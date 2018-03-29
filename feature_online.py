@@ -22,26 +22,14 @@ t = feature3[pd.notnull(feature3.date)][['user_id']]
 t['online_total_consume'] = 1
 t['online_total_consume'] = t.groupby('user_id').agg('sum').reset_index()
 t.to_csv('data/online_feature3.csv',index=None)
-# t1 = feature3[pd.notnull(feature3.coupon_id)][['user_id']]
-# t1['online_coupon_receive'] = 1
-# t1['online_coupon_receive'] = t1.groupby('user_id').agg('sum').reset_index()
-
-# online_feature3 = pd.merge(t,t1,on='user_id',how='outer')
-# print(online_feature3.describe())
-# online_feature3.to_csv('data/online_feature3.csv',index=None)
+print('online3',feature3.shape)
 
 #for dataset2
 t = feature2[pd.notnull(feature2.date)][['user_id']]
 t['online_total_consume'] = 1
 t['online_total_consume'] = t.groupby('user_id').agg('sum').reset_index()
 t.to_csv('data/online_feature2.csv',index=None)
-# t1 = feature2[pd.notnull(feature2.coupon_id)][['user_id']]
-# t1['online_coupon_receive'] = 1
-# t1['online_coupon_receive'] = t1.groupby('user_id').agg('sum').reset_index()
-#
-# online_feature2 = pd.merge(t,t1,on='user_id',how='outer')
-# print(online_feature2.describe())
-# online_feature2.to_csv('data/online_feature2.csv',index=None)
+print('online2',feature2.shape)
 
 
 #for dataset1
@@ -49,23 +37,11 @@ t = feature1[pd.notnull(feature1.date)][['user_id']]
 t['online_total_consume'] = 1
 t['online_total_consume'] = t.groupby('user_id').agg('sum').reset_index()
 t.to_csv('data/online_feature1.csv',index=None)
-# t1 = feature1[pd.notnull(feature1.coupon_id)][['user_id']]
-# t1['online_coupon_receive'] = 1
-# t1['online_coupon_receive'] = t1.groupby('user_id').agg('sum').reset_index()
-#
-# online_feature1 = pd.merge(t,t1,on='user_id',how='outer')
-# print(online_feature1.describe())
-# online_feature1.to_csv('data/online_feature1.csv',index=None)
+print('online1',feature1.shape)
 
 #for dataset0
 t = feature0[pd.notnull(feature0.date)][['user_id']]
 t['online_total_consume'] = 1
 t['online_total_consume'] = t.groupby('user_id').agg('sum').reset_index()
 t.to_csv('data/online_feature0.csv',index=None)
-# t1 = feature0[pd.notnull(feature0.coupon_id)][['user_id']]
-# t1['online_coupon_receive'] = 1
-# t1['online_coupon_receive'] = t1.groupby('user_id').agg('sum').reset_index()
-#
-# online_feature0 = pd.merge(t,t1,on='user_id',how='outer')
-# print(online_feature0.describe())
-# online_feature0.to_csv('data/online_feature0.csv',index=None)
+print('online0',feature0.shape)
